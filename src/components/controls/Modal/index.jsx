@@ -26,17 +26,18 @@ const ModalWindow = ({ addPoint, show, changeModal, selectedPoint, changeVisible
   });
 
   const save = () => {
-    if (+lat > 85 || +lat < -85) {
+    if (+lat > 85 || +lat < -85 || isNaN(lat) || lat === '') {
       useLatBorder('lat-error');
       return;
-    } else useLngBorder('lat-success');
+    } else useLatBorder('lat-success');
 
-    if (+lng > 180 || +lng < -180) {
+    if (+lng > 180 || +lng < -180 || isNaN(lng) || lng === '') {
       useLngBorder('lng-error');
       return;
     } else useLngBorder('lng-success');
 
-    const data = { lat: +lat, lng: +lng, comment, id: uuid() };
+    const data = { lat: parseFloat(lat), lng: parseFloat(lng), comment, id: uuid() };
+
     addPoint(data);
     firebase.add(data);
     changeModal(false);
@@ -75,6 +76,7 @@ const ModalWindow = ({ addPoint, show, changeModal, selectedPoint, changeVisible
               placeholder='Lat...'
               aria-label=''
               aria-describedby='basic-addon1'
+              required
             />
             <FormControl
               id={lngBorder}
@@ -83,6 +85,7 @@ const ModalWindow = ({ addPoint, show, changeModal, selectedPoint, changeVisible
               placeholder='Lng...'
               aria-label=''
               aria-describedby='basic-addon1'
+              required
             />
           </InputGroup>
 
@@ -97,7 +100,7 @@ const ModalWindow = ({ addPoint, show, changeModal, selectedPoint, changeVisible
               onChange={(e) => useComment(e.target.value)}
               placeholder='Comment...'
               as='textarea'
-              maxLength = '1024'
+              maxLength='1024'
               aria-label='With textarea'
             />
           </InputGroup>
@@ -116,8 +119,12 @@ const ModalWindow = ({ addPoint, show, changeModal, selectedPoint, changeVisible
   );
 };
 
-const matchDispatchToProps = (dispatch) => bindActionCreators({ addPoint, changeModal, changeVisible }, dispatch);
+const matchDispatchToProps = (dispatch) =>
+  bindActionCreators({ addPoint, changeModal, changeVisible }, dispatch);
 
 const mapStateToProps = ({ show, selectedPoint }) => ({ show, selectedPoint });
 
-export default connect( mapStateToProps, matchDispatchToProps )(ModalWindow);
+export default connect(
+  mapStateToProps,
+  matchDispatchToProps
+)(ModalWindow);
