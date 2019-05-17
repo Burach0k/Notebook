@@ -1,0 +1,17 @@
+#points-list {
+  display: flex;
+  position: static;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  position: relative;
+  top: 300px;
+
+  z-index: 5;
+
+  @media screen and (max-width: 700px) {
+    width: calc(95% - 150px);
+    margin-left: 150px;
+  }
+}

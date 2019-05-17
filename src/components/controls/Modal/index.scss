@@ -1,0 +1,20 @@
+#button-add {
+  position: fixed;
+  left: 3%;
+  height: 50px;
+  top: calc(50% - 50px);
+
+  z-index: 10;
+}
+#lat-success {
+  border: 1px solid #ced4da;
+}
+#lat-error {
+  border: 1px solid red;
+}
+#lng-success {
+  border: 1px solid #ced4da;
+}
+#lng-error {
+  border: 1px solid red;
+}
